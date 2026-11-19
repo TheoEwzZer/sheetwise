@@ -1,6 +1,6 @@
 {
-  "name": "sheetwise",
-  "displayName": "Sheetwise — XLSX Viewer & Editor",
+  "name": "sheetwise-xlsx",
+  "displayName": "Sheetwise XLSX Editor",
   "description": "View and edit .xlsx spreadsheets in VS Code with their real formatting: formulas (recalculated), number formats, merges, borders, frozen panes, multiple sheets.",
   "version": "0.1.0",
   "publisher": "TheoEwzZer",
