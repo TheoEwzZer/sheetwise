@@ -1,0 +1,627 @@
+:root {
+  --default-font: Calibri, Carlito, 'Segoe UI', Arial, sans-serif;
+  --cell-bg: #ffffff;
+  --cell-fg: #000000;
+  --grid: #e2e2e2;
+  --hdr-bg: #f5f5f5;
+  --hdr-fg: #5c5c5c;
+  --hdr-border: #d6d6d6;
+  --hdr-sel-bg: #d3e9dc;
+  --hdr-sel-fg: #0e6b3a;
+  --hdr-full-bg: #1d7a46;
+  --sel-border: #1d7a46;
+  --sel-fill: rgba(33, 115, 70, 0.1);
+  --freeze: #9b9b9b;
+  --link: #0563c1;
+  --ui-bg: var(--vscode-editor-background, #fff);
+  --ui-fg: var(--vscode-foreground, #333);
+  --ui-border: var(--vscode-panel-border, rgba(128, 128, 128, 0.35));
+  --ui-hover: var(--vscode-toolbar-hoverBackground, rgba(128, 128, 128, 0.18));
+  --ui-active: var(--vscode-toolbar-activeBackground, rgba(128, 128, 128, 0.3));
+  --input-bg: var(--vscode-input-background, #fff);
+  --input-fg: var(--vscode-input-foreground, #333);
+  --input-border: var(--vscode-input-border, var(--ui-border));
+}
+
+body.grid-vscode {
+  --cell-bg: var(--vscode-editor-background);
+  --cell-fg: var(--vscode-editor-foreground);
+  --grid: var(--vscode-editorIndentGuide-background1, rgba(128, 128, 128, 0.25));
+  --hdr-bg: var(--vscode-sideBar-background, var(--vscode-editor-background));
+  --hdr-fg: var(--vscode-descriptionForeground);
+  --hdr-border: var(--ui-border);
+  --hdr-sel-bg: var(--vscode-list-inactiveSelectionBackground);
+  --hdr-sel-fg: var(--vscode-foreground);
+  --hdr-full-bg: var(--vscode-focusBorder);
+  --sel-border: var(--vscode-focusBorder);
+  --sel-fill: color-mix(in srgb, var(--vscode-focusBorder) 15%, transparent);
+  --link: var(--vscode-textLink-foreground);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  background: var(--ui-bg);
+  color: var(--ui-fg);
+  font-family: var(--vscode-font-family, 'Segoe UI', sans-serif);
+  font-size: var(--vscode-font-size, 13px);
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+/* ---------------------------------------------------------------- toolbar */
+#toolbar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2px;
+  padding: 4px 6px;
+  border-bottom: 1px solid var(--ui-border);
+  user-select: none;
+}
+#toolbar .sep {
+  width: 1px;
+  align-self: stretch;
+  margin: 3px 4px;
+  background: var(--ui-border);
+}
+#toolbar .spacer {
+  flex: 1;
+}
+#toolbar button,
+#toolbar label.color {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  min-width: 26px;
+  height: 26px;
+  padding: 0 5px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: var(--ui-fg);
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+}
+#toolbar button:hover,
+#toolbar label.color:hover {
+  background: var(--ui-hover);
+}
+#toolbar button.on {
+  background: var(--ui-active);
+  border-color: var(--ui-border);
+}
+#toolbar button svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+#toolbar select {
+  height: 26px;
+  border: 1px solid var(--input-border);
+  border-radius: 3px;
+  background: var(--vscode-dropdown-background, var(--input-bg));
+  color: var(--vscode-dropdown-foreground, var(--input-fg));
+  font: inherit;
+  font-size: 12px;
+  padding: 0 4px;
+}
+#tb-font {
+  width: 130px;
+}
+#tb-size {
+  width: 58px;
+}
+#tb-numfmt {
+  width: 150px;
+}
+#tb-border {
+  width: 105px;
+}
+label.color .glyph {
+  font-weight: bold;
+  line-height: 1;
+  margin-top: -4px;
+}
+label.color .glyph.fill {
+  font-size: 15px;
+}
+label.color .bar {
+  position: absolute;
+  left: 5px;
+  right: 5px;
+  bottom: 3px;
+  height: 4px;
+  border-radius: 1px;
+}
+label.color input[type='color'] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  padding: 0;
+}
+
+/* ---------------------------------------------------------------- formula bar */
+#fbar {
+  display: flex;
+  align-items: stretch;
+  border-bottom: 1px solid var(--ui-border);
+  min-height: 26px;
+}
+#namebox {
+  width: 92px;
+  border: 0;
+  border-right: 1px solid var(--ui-border);
+  background: var(--input-bg);
+  color: var(--input-fg);
+  font: inherit;
+  padding: 0 6px;
+  text-align: center;
+}
+#fbar .fx {
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  font-style: italic;
+  font-family: Georgia, serif;
+  opacity: 0.7;
+  border-right: 1px solid var(--ui-border);
+  user-select: none;
+}
+#finput {
+  flex: 1;
+  resize: none;
+  border: 0;
+  background: var(--input-bg);
+  color: var(--input-fg);
+  font-family: var(--vscode-editor-font-family, Consolas, monospace);
+  font-size: 13px;
+  padding: 4px 6px;
+  line-height: 18px;
+  max-height: 80px;
+  outline: none;
+  white-space: pre;
+  overflow: auto hidden;
+}
+#finput:focus,
+#namebox:focus {
+  outline: 1px solid var(--vscode-focusBorder, #0078d4);
+  outline-offset: -1px;
+}
+
+#banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  background: var(--vscode-inputValidation-warningBackground, #fff4ce);
+  color: var(--vscode-inputValidation-warningForeground, inherit);
+  border-bottom: 1px solid var(--vscode-inputValidation-warningBorder, #e0b400);
+  font-size: 12px;
+}
+#banner[hidden] {
+  display: none;
+}
+#banner span {
+  flex: 1;
+}
+#banner button {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+/* ---------------------------------------------------------------- grid */
+#grid-scroll {
+  flex: 1;
+  overflow: auto;
+  position: relative;
+  background: var(--cell-bg);
+  outline: none;
+}
+#sheet {
+  position: relative;
+  width: max-content;
+  min-width: 100%;
+}
+#grid {
+  table-layout: fixed;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-family: var(--default-font);
+  font-size: 11pt;
+  color: var(--cell-fg);
+  background: var(--cell-bg);
+  user-select: none;
+  cursor: cell;
+}
+#grid td {
+  padding: 0 3px;
+  overflow: hidden;
+  white-space: pre;
+  vertical-align: bottom;
+  line-height: 1.2;
+  background-color: var(--cell-bg);
+  border-right: 1px solid var(--grid);
+  border-bottom: 1px solid var(--grid);
+  position: relative;
+}
+#grid td .ct {
+  overflow: hidden;
+}
+#grid td.wr {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+#grid td.spill {
+  overflow: visible;
+}
+#grid td.spill .ct {
+  position: relative;
+  z-index: 1;
+}
+#grid td.fp .ct {
+  color: #7a7a7a;
+  font-style: italic;
+}
+#grid td.lnk .ct {
+  color: var(--link);
+  text-decoration: underline;
+}
+#grid td.err .ct {
+  color: #c00000;
+}
+#grid td .note-mark {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-style: solid;
+  border-width: 0 6px 6px 0;
+  border-color: transparent #d13438 transparent transparent;
+}
+#grid.nogrid td {
+  border-color: transparent;
+}
+
+#grid th {
+  background: var(--hdr-bg);
+  color: var(--hdr-fg);
+  font-family: var(--vscode-font-family, 'Segoe UI', sans-serif);
+  font-weight: normal;
+  font-size: 11px;
+  border-right: 1px solid var(--hdr-border);
+  border-bottom: 1px solid var(--hdr-border);
+  padding: 0;
+  position: sticky;
+  overflow: hidden;
+  white-space: nowrap;
+  cursor: default;
+}
+#grid thead th {
+  top: 0;
+  z-index: 6;
+  text-align: center;
+  cursor: s-resize;
+}
+#grid thead th.corner {
+  left: 0;
+  z-index: 8;
+  cursor: se-resize;
+}
+#grid thead th.corner::after {
+  content: '';
+  position: absolute;
+  right: 3px;
+  bottom: 3px;
+  border-style: solid;
+  border-width: 0 0 9px 9px;
+  border-color: transparent transparent var(--hdr-border) transparent;
+}
+#grid thead th.fz-c {
+  z-index: 7;
+}
+#grid tbody th.rh {
+  left: 0;
+  z-index: 5;
+  text-align: center;
+  cursor: e-resize;
+}
+#grid tbody th.rh.fz-r {
+  z-index: 7;
+}
+#grid th.sel {
+  background: var(--hdr-sel-bg);
+  color: var(--hdr-sel-fg);
+  font-weight: 600;
+}
+#grid th.sel-full {
+  background: var(--hdr-full-bg);
+  color: #fff;
+}
+#grid .rz {
+  position: absolute;
+  top: 0;
+  right: -1px;
+  width: 6px;
+  height: 100%;
+  cursor: col-resize;
+  z-index: 2;
+}
+#grid .rzr {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 6px;
+  width: 100%;
+  cursor: row-resize;
+  z-index: 2;
+}
+body.resizing-col,
+body.resizing-col * {
+  cursor: col-resize !important;
+}
+body.resizing-row,
+body.resizing-row * {
+  cursor: row-resize !important;
+}
+
+/* frozen panes */
+#grid td.fz-c,
+#grid td.fz-r {
+  position: sticky;
+  z-index: 2;
+}
+#grid td.fz-c.fz-r {
+  z-index: 3;
+}
+#grid td.fz-c-last {
+  box-shadow: inset -1px 0 0 var(--freeze);
+}
+#grid td.fz-r-last {
+  box-shadow: inset 0 -1px 0 var(--freeze);
+}
+#grid td.fz-c-last.fz-r-last {
+  box-shadow: inset -1px -1px 0 var(--freeze);
+}
+
+/* ---------------------------------------------------------------- selection */
+.overlay {
+  position: absolute;
+  pointer-events: none;
+  z-index: 4;
+}
+#sel-range {
+  background: var(--sel-fill);
+  border: 1px solid var(--sel-border);
+}
+#sel-range[hidden] {
+  display: none;
+}
+#sel-active {
+  border: 2px solid var(--sel-border);
+  margin: -1px 0 0 -1px;
+  padding: 0;
+}
+#copy-ants {
+  border: 2px dashed var(--sel-border);
+  margin: -1px 0 0 -1px;
+  animation: ants 0.6s linear infinite;
+}
+#copy-ants[hidden] {
+  display: none;
+}
+@keyframes ants {
+  50% {
+    border-color: transparent;
+  }
+}
+#dv-btn {
+  pointer-events: auto;
+  width: 17px;
+  height: 18px;
+  padding: 0;
+  border: 1px solid #aaa;
+  background: #f3f3f3;
+  color: #333;
+  font-size: 10px;
+  line-height: 16px;
+  cursor: pointer;
+}
+#dv-btn[hidden] {
+  display: none;
+}
+
+#editor {
+  position: absolute;
+  z-index: 4;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  padding: 0;
+  border: 0;
+  resize: none;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--cell-bg);
+  color: var(--cell-fg);
+}
+#editor.editing {
+  opacity: 1;
+  z-index: 9;
+  pointer-events: auto;
+  padding: 1px 3px;
+  border: 2px solid var(--sel-border);
+  margin: -1px 0 0 -1px;
+  outline: none;
+  line-height: 1.2;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+/* ---------------------------------------------------------------- footer */
+#bottom {
+  display: flex;
+  align-items: stretch;
+  border-top: 1px solid var(--ui-border);
+  height: 28px;
+  user-select: none;
+}
+#tabs {
+  display: flex;
+  align-items: stretch;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
+  flex: 0 1 auto;
+  max-width: 70%;
+}
+#tabs .tab-add {
+  flex: none;
+  width: 28px;
+  border: 0;
+  border-right: 1px solid var(--ui-border);
+  background: transparent;
+  color: var(--ui-fg);
+  font-size: 16px;
+  cursor: pointer;
+}
+#tabs .tab-add:hover {
+  background: var(--ui-hover);
+}
+#tabs .tab {
+  flex: none;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  border-right: 1px solid var(--ui-border);
+  border-bottom: 3px solid var(--tab, transparent);
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 12px;
+}
+#tabs .tab:hover {
+  background: var(--ui-hover);
+}
+#tabs .tab.active {
+  background: var(--cell-bg);
+  color: var(--sel-border);
+  font-weight: 600;
+  box-shadow: inset 0 -2px 0 var(--sel-border);
+}
+body.grid-vscode #tabs .tab.active {
+  color: var(--vscode-foreground);
+}
+#tabs .tab.hidden-sheet {
+  opacity: 0.55;
+  font-style: italic;
+}
+.tab-input {
+  width: 120px;
+  font: inherit;
+  background: var(--input-bg);
+  color: var(--input-fg);
+  border: 1px solid var(--vscode-focusBorder, #0078d4);
+}
+#status {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 12px;
+  font-size: 12px;
+  opacity: 0.85;
+  white-space: pre;
+  overflow: hidden;
+}
+
+/* ---------------------------------------------------------------- menus / toasts */
+#menu {
+  position: fixed;
+  z-index: 100;
+  min-width: 220px;
+  max-height: 60vh;
+  overflow: auto;
+  padding: 4px 0;
+  background: var(--vscode-menu-background, #fff);
+  color: var(--vscode-menu-foreground, #333);
+  border: 1px solid var(--vscode-menu-border, var(--ui-border));
+  border-radius: 5px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.28);
+  font-size: 12.5px;
+}
+#menu[hidden] {
+  display: none;
+}
+#menu .mi {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 4px 14px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+#menu .mi:hover {
+  background: var(--vscode-menu-selectionBackground, #0078d4);
+  color: var(--vscode-menu-selectionForeground, #fff);
+}
+#menu .mi.disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
+#menu .mi .hint {
+  opacity: 0.6;
+}
+#menu .msep {
+  height: 1px;
+  margin: 4px 8px;
+  background: var(--vscode-menu-separatorBackground, var(--ui-border));
+}
+#toast {
+  position: fixed;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 110;
+  max-width: 80vw;
+  padding: 8px 14px;
+  border-radius: 5px;
+  background: var(--vscode-notifications-background, #333);
+  color: var(--vscode-notifications-foreground, #fff);
+  border: 1px solid var(--vscode-notifications-border, transparent);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+  font-size: 12.5px;
+}
+#toast[hidden] {
+  display: none;
+}
+#loading {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  opacity: 0.7;
+  z-index: 50;
+}
+#loading[hidden] {
+  display: none;
+}

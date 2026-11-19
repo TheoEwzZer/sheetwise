@@ -1,0 +1,122 @@
+{
+  "name": "sheetwise",
+  "displayName": "Sheetwise — XLSX Viewer & Editor",
+  "description": "View and edit .xlsx spreadsheets in VS Code with their real formatting: formulas (recalculated), number formats, merges, borders, frozen panes, multiple sheets.",
+  "version": "0.1.0",
+  "publisher": "TheoEwzZer",
+  "author": "TheoEwzZer",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/TheoEwzZer/sheetwise.git"
+  },
+  "bugs": {
+    "url": "https://github.com/TheoEwzZer/sheetwise/issues"
+  },
+  "homepage": "https://github.com/TheoEwzZer/sheetwise#readme",
+  "icon": "images/icon.png",
+  "galleryBanner": {
+    "color": "#0f5c36",
+    "theme": "dark"
+  },
+  "pricing": "Free",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Visualization",
+    "Other"
+  ],
+  "keywords": [
+    "xlsx",
+    "excel",
+    "spreadsheet",
+    "xlsx viewer",
+    "xlsx editor",
+    "workbook",
+    "formulas"
+  ],
+  "main": "./dist/extension.js",
+  "activationEvents": [],
+  "contributes": {
+    "customEditors": [
+      {
+        "viewType": "xlsxEditor.spreadsheet",
+        "displayName": "Sheetwise (XLSX)",
+        "selector": [
+          {
+            "filenamePattern": "*.xlsx"
+          }
+        ],
+        "priority": "default"
+      }
+    ],
+    "commands": [
+      {
+        "command": "xlsxEditor.newWorkbook",
+        "title": "New Excel Workbook (.xlsx)",
+        "category": "XLSX"
+      }
+    ],
+    "configuration": {
+      "title": "Sheetwise",
+      "properties": {
+        "xlsxEditor.locale": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "fr",
+            "en"
+          ],
+          "enumDescriptions": [
+            "Follow the VS Code display language",
+            "French conventions: 1 234,56 — dd/mm/yyyy dates — VRAI/FAUX",
+            "English conventions: 1,234.56 — m/d/yyyy dates — TRUE/FALSE"
+          ],
+          "default": "auto",
+          "description": "Conventions used to display and enter numbers, dates and booleans."
+        },
+        "xlsxEditor.gridTheme": {
+          "type": "string",
+          "enum": [
+            "excel",
+            "vscode"
+          ],
+          "enumDescriptions": [
+            "White grid, like Excel",
+            "Unfilled cells use the VS Code theme colors"
+          ],
+          "default": "excel",
+          "description": "Appearance of cells that have no fill color."
+        },
+        "xlsxEditor.recalculate": {
+          "type": "boolean",
+          "default": true,
+          "description": "Recalculate formulas that depend on edited cells (and formulas with no cached result when the file is opened)."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "typecheck": "tsc -p . --noEmit",
+    "notices": "node scripts/third-party-notices.mjs",
+    "test": "node --disable-warning=MODULE_TYPELESS_PACKAGE_JSON --test \"test/*.test.ts\"",
+    "package": "node esbuild.mjs --production && vsce package --no-dependencies -o dist/sheetwise.vsix",
+    "vscode:prepublish": "node esbuild.mjs --production"
+  },
+  "dependencies": {
+    "exceljs": "4.4.0",
+    "fast-formula-parser": "1.0.19",
+    "jszip": "^3.10.1",
+    "ssf": "0.11.2"
+  },
+  "devDependencies": {
+    "@types/node": "20.17.6",
+    "@types/vscode": "1.85.0",
+    "@vscode/vsce": "3.2.1",
+    "esbuild": "0.24.0",
+    "typescript": "5.6.3"
+  }
+}
