@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#23a065"/>
+      <stop offset="1" stop-color="#0f5c36"/>
+    </linearGradient>
+    <linearGradient id="pen" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffd166"/>
+      <stop offset="1" stop-color="#f4a62a"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#06311c" flood-opacity="0.45"/>
+    </filter>
+  </defs>
+
+  <!-- background -->
+  <rect x="8" y="8" width="240" height="240" rx="52" fill="url(#bg)"/>
+
+  <!-- sheet -->
+  <g filter="url(#shadow)">
+    <rect x="46" y="44" width="164" height="168" rx="14" fill="#ffffff"/>
+  </g>
+  <!-- column headers -->
+  <path d="M46 58a14 14 0 0 1 14-14h136a14 14 0 0 1 14 14v26H46z" fill="#d6f0e2"/>
+  <!-- row headers -->
+  <rect x="46" y="84" width="34" height="128" fill="#eef8f2"/>
+  <path d="M46 198v0a14 14 0 0 0 14 14h20V84H46z" fill="#eef8f2"/>
+
+  <!-- gridlines -->
+  <g stroke="#9fcfb4" stroke-width="3">
+    <line x1="46" y1="84" x2="210" y2="84"/>
+    <line x1="46" y1="116" x2="210" y2="116"/>
+    <line x1="46" y1="148" x2="210" y2="148"/>
+    <line x1="46" y1="180" x2="210" y2="180"/>
+    <line x1="80" y1="44" x2="80" y2="212"/>
+    <line x1="124" y1="44" x2="124" y2="212"/>
+    <line x1="168" y1="44" x2="168" y2="212"/>
+  </g>
+
+  <!-- formatted cells -->
+  <rect x="82" y="86" width="40" height="28" fill="#1d7a46"/>
+  <rect x="126" y="86" width="40" height="28" fill="#1d7a46"/>
+  <rect x="170" y="86" width="38" height="28" fill="#1d7a46"/>
+  <rect x="88" y="126" width="26" height="8" rx="4" fill="#5b6b62"/>
+  <rect x="132" y="126" width="22" height="8" rx="4" fill="#5b6b62"/>
+  <rect x="88" y="158" width="20" height="8" rx="4" fill="#5b6b62"/>
+  <rect x="126" y="150" width="40" height="28" fill="#ffe8a3"/>
+
+  <!-- active cell -->
+  <rect x="124" y="148" width="44" height="32" fill="none" stroke="#0f5c36" stroke-width="5"/>
+  <rect x="162" y="174" width="10" height="10" fill="#0f5c36"/>
+
+  <!-- pencil -->
+  <g transform="translate(182 168) rotate(45)">
+    <rect x="-11" y="-62" width="22" height="58" rx="3" fill="url(#pen)" stroke="#7a4b07" stroke-width="2.5"/>
+    <rect x="-11" y="-70" width="22" height="12" rx="3" fill="#ef6f6c" stroke="#7a4b07" stroke-width="2.5"/>
+    <path d="M-11 -4 L11 -4 L0 18 Z" fill="#f7e1bf" stroke="#7a4b07" stroke-width="2.5" stroke-linejoin="round"/>
+    <path d="M-3.5 11 L3.5 11 L0 18 Z" fill="#3b2a12"/>
+  </g>
+</svg>
